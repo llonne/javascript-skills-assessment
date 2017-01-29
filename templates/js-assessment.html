@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Skills JavaScript</title>
   <link rel="stylesheet" href="/static/styles.css">
+  <script src="https://code.jquery.com/jquery.js"></script>
 </head>
 <body>
 
@@ -37,7 +38,13 @@
 
 <script>
   "use strict";
-  // code here for above-problem
+
+  function changeText() {
+    var message = document.getElementById('message-to-change').innerHTML;
+    if (message == 'hello')
+      document.getElementById('message-to-change').innerHTML = 'goodbye';
+  }
+
 </script>
 
 <div class="hint">
@@ -65,7 +72,16 @@
 
 <script>
   "use strict";
-  // code here for above problem
+
+  var fakeSubmit = document.getElementById('prevent-form-submission-form');
+
+  function dontSubmit(evt) {
+      alert("Just an Alert here, no submit.");
+      evt.preventDefault();
+  }
+
+  fakeSubmit.addEventListener('submit', dontSubmit);
+
 </script>
 
 <div class="hint">
@@ -91,22 +107,15 @@
 <script>
   "use strict";
 
-//  Here's a stub of a function you can use!
+  function reverseString() {
+    var msg = "Porcupines are cute";
+    var newMsg = msg.split("").reverse().join("");
+    alert(newMsg);
+  }
 
-//  function reverseString() {
-//    var msg = "Porcupines are cute";
-//
-//    // do some stuff here to reverse that string into a new variable
-//    var newMsg = "This should be the reversed string";
-//
-//    alert(newMsg);
-//  }
+  var button = document.getElementById('reverse-string-button');
+  button.addEventListener('click', reverseString);
 
-// Here's a stub of event stuff you could use
-//
-
-//  var button = document.getElementById('reverse-string-button');
-//  button.addEventListener('click', reverseString);
 </script>
 
 
@@ -137,7 +146,11 @@
 
 <script>
   "use strict";
-  // put your code here
+
+  $("img#kittenz-rule").on("dblclick", function(e) {
+     $("img#kittenz-rule").attr("src", "http://3.bp.blogspot.com/-yC1JcDp0GMY/UWJjIbfcPGI/AAAAAAAAAQw/UNsaYoHZA1E/s1600/cute-dachshund-puppy.jpg");
+ });
+
 </script>
 
 <div class="hint">
@@ -168,9 +181,48 @@
 
 <script>
   "use strict";
-  // put your code here
-</script>
+  //TODO: add error checking for numbers under 1 and over 100
 
+  $('#play-guessing-game').on('click', function(){playGame();});
+
+  function playGame(){
+    //Play a game to guess a number between 1 and 100.
+    var randNum = randomIntBetween(1,100);
+    //console.log(randNum);
+    $('#play-guessing-game').attr('disabled', true);
+    $('#guessing-game-form :input').attr('disabled', false);
+    $('div#number-guessing-msg').html("Guess a number betewen 1 and 100");
+    $('#guessing-game-form').on('submit', function(event) { compareNums(randNum); event.preventDefault(); });
+  }
+
+  function compareNums(randNum){
+    //Compare the randomly chosen number to the number guessed by user.
+
+    var guessedNum = document.getElementById('number-guessed').value;
+
+    //input type=number handles conversion. but just in case...
+    //if (isNaN(guessedNum)) { guessedNum = parseInt(guessedNum); }
+
+    if ((guessedNum > 100) || (guessedNum < 1) || (isNaN(guessedNum))) {
+      $('div#number-guessing-msg').html("Your guess is ridiculous. Guess again.");
+    } else if (guessedNum < randNum) {
+      $('div#number-guessing-msg').html("Your guess is too low. Guess again.");
+    } else if (guessedNum > randNum) {
+      $('div#number-guessing-msg').html("Your guess is too high. Guess again.");
+    } else {
+      $('div#number-guessing-msg').html("Your guess is perfect! Are you psychic?");
+      $('#guessing-game-form :input').attr('disabled', true);
+      $('#play-guessing-game').attr('disabled', false);
+      $('#number-guessed').val('');
+    }
+  }
+
+  function randomIntBetween(min,max)
+  {
+    return Math.floor(Math.random()*(max-min+1)+min);
+  }
+
+</script>
 
 <div class="hint">
   <div>
