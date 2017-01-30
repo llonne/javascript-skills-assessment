@@ -286,6 +286,21 @@
   }
 
   // put your code here
+  function submitAttack(evt) {
+    evt.preventDefault();
+
+    var FormInputs = {
+      "victim-name": $("#victim-name").val()
+    };
+
+    $.post("/t-rex-attack.json", 
+         FormInputs,
+         showTRexResults
+         );
+
+  }
+
+$("#t-rex-form").on("submit", submitAttack);
 
 </script>
 
